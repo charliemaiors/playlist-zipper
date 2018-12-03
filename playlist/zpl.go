@@ -32,7 +32,7 @@ type zplReader struct {
 }
 
 func (seq zplBody) getAllSources() []string {
-	res := make([]string, 0, 0)
+	res := make([]string, 0)
 	for _, element := range seq.Sequence {
 		res = append(res, element.Src)
 	}
