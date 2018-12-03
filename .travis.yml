@@ -5,9 +5,10 @@ go:
 
 env:
   - GO111MODULE=on
+  - GOLANGCILINT_VERSION=v1.12.3
 
 before_script:
-  - go install -mod vendor github.com/golangci/golangci-lint/cmd/golangci-lint
+  - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $GOPATH/bin $GOLANGCILINT_VERSION
 
 script:
   - golangci-lint run       # run a bunch of code checkers/linters in parallel
