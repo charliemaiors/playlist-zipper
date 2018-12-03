@@ -1,10 +1,10 @@
 language: go
 
 go:
-  - "1.8.x"
-  - "1.9.x"
-  - "1.10.x"
   - "1.11.x"
+
+env:
+  - GO111MODULE=on
 
 before_script:
   - go install -mod vendor github.com/golangci/golangci-lint/cmd/golangci-lint
