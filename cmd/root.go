@@ -16,8 +16,12 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 
+	"github.com/charliemaiors/playlist-zipper/archiver"
+	"github.com/charliemaiors/playlist-zipper/playlist"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -34,8 +38,14 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		curDir := cmd.CommandPath()
+		fmt.Printf("Current dir is %s", curDir)
+		produceArchives(curDir)
+	},
 }
+
+var playlistType, archiveType string
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
@@ -51,5 +61,43 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVar(&playlistType, "playlist-ext", "zpl", "Set playlist Type")
+	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-yupr", "zip", "Set archive Type")
+}
+
+func produceArchives(currentDir string) {
+	playlistHanlder, err := playlist.NewReader(playlistType)
+	if err != nil {
+		fmt.Printf("Error defining playlist handler %v", err)
+		os.Exit(2)
+	}
+
+	archiveHandler, err := archiver.NewArchiver(archiveType)
+	if err != nil {
+		fmt.Printf("Error defining archive handler %v", err)
+		os.Exit(3)
+	}
+
+	files, err := ioutil.ReadDir(currentDir)
+	if err != nil {
+		fmt.Printf("Error reading executable directory %v", err)
+		os.Exit(4)
+	}
+
+	for _, file := range files {
+		if filepath.Ext(file.Name()) == "."+playlistType {
+			go func() {
+				playlistFiles, err := playlistHanlder.ReadPlaylist(file.Name())
+				if err != nil {
+					fmt.Printf("Error reading playlist %s: %v", file.Name(), err)
+					return
+				}
+				if err = archiveHandler.Archive(filepath.Base(file.Name()+".zip"), playlistFiles); err != nil {
+					fmt.Printf("Error producing archive for playlist %s: %v", file.Name(), err)
+					return
+				}
+				fmt.Printf("Done, created archive for %s", file.Name())
+			}()
+		}
+	}
 }
