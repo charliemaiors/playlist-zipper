@@ -39,8 +39,12 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		curDir := cmd.CommandPath()
-		fmt.Printf("Current dir is %s", curDir)
+		curDir, err := os.Getwd()
+		if err != nil {
+			fmt.Printf("Got error reading working directory %v", err)
+			os.Exit(2)
+		}
+		fmt.Printf("Current dir is %s\n", curDir)
 		produceArchives(curDir)
 	},
 }
@@ -62,42 +66,42 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.PersistentFlags().StringVar(&playlistType, "playlist-ext", "zpl", "Set playlist Type")
-	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-yupr", "zip", "Set archive Type")
+	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-types", "zip", "Set archive Type")
 }
 
 func produceArchives(currentDir string) {
 	playlistHanlder, err := playlist.NewReader(playlistType)
 	if err != nil {
-		fmt.Printf("Error defining playlist handler %v", err)
-		os.Exit(2)
+		fmt.Printf("Error defining playlist handler %v\n", err)
+		os.Exit(3)
 	}
 
 	archiveHandler, err := archiver.NewArchiver(archiveType)
 	if err != nil {
-		fmt.Printf("Error defining archive handler %v", err)
-		os.Exit(3)
+		fmt.Printf("Error defining archive handler %v\n", err)
+		os.Exit(4)
 	}
 
 	files, err := ioutil.ReadDir(currentDir)
 	if err != nil {
-		fmt.Printf("Error reading executable directory %v", err)
-		os.Exit(4)
+		fmt.Printf("Error reading executable directory %v\n", err)
+		os.Exit(5)
 	}
 
 	for _, file := range files {
 		if filepath.Ext(file.Name()) == "."+playlistType {
-			go func() {
-				playlistFiles, err := playlistHanlder.ReadPlaylist(file.Name())
-				if err != nil {
-					fmt.Printf("Error reading playlist %s: %v", file.Name(), err)
-					return
-				}
-				if err = archiveHandler.Archive(filepath.Base(file.Name()+".zip"), playlistFiles); err != nil {
-					fmt.Printf("Error producing archive for playlist %s: %v", file.Name(), err)
-					return
-				}
-				fmt.Printf("Done, created archive for %s", file.Name())
-			}()
+			fmt.Printf("File is %s", file.Name())
+			playlistFiles, err := playlistHanlder.ReadPlaylist(file.Name())
+			fmt.Printf("Files are %v", playlistFiles)
+			if err != nil {
+				fmt.Printf("Error reading playlist %s: %v", file.Name(), err)
+				return
+			}
+			if err = archiveHandler.Archive(filepath.Base(file.Name()+".zip"), playlistFiles); err != nil {
+				fmt.Printf("Error producing archive for playlist %s: %v", file.Name(), err)
+				return
+			}
+			fmt.Printf("Done, created archive for %s", file.Name())
 		}
 	}
 }
