@@ -9,3 +9,20 @@ before_script:
 script:
   - golangci-lint run       # run a bunch of code checkers/linters in parallel
   - go test -v -race ./...  # Run all the tests with the race detector enabled
+  - GOOS="linux" go build -v -o bin/linux-x86/zipper main.go
+  - GOOS="darwin" go build -v -o bin/osx/zipper main.go
+  - GOOS="windows" go build -v -o bin/win/zipper.exe main.go
+  - GOOS="freebsd" go build -v -o bin/freebsd-x86/zipper main.go
+before_deploy:
+  - zip -r bin/golang-wol-linux-x86.zip bin/x86/
+  - zip -r bin/golang-wol-osx.zip bin/osx/
+  - zip -r bin/golang-wol-win.zip bin/win/
+  - zip -r bin/golang-wol-linux-arm.zip bin/arm/
+deploy:
+  provider: releases
+  api_key: "$GITHUB_TOKEN"
+  file_glob: true
+  file: bin/*.zip
+  skip_cleanup: true
+  on:
+    tags: true
