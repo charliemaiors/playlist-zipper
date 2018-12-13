@@ -19,6 +19,10 @@ func (reader *m3uReader) ReadPlaylist(playlistLocation string) ([]string, error)
 
 	playlistParsed, listType, err := m3u8.DecodeFrom(playlist, true)
 
+	if err != nil {
+		return nil, err
+	}
+
 	if listType == m3u8.MASTER {
 		return nil, errors.New("Playlist not supported")
 	}
