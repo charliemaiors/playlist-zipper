@@ -1,0 +1,10 @@
+#EXTM3U
+ 
+#EXTINF:120,Titolo di esempio
+C:\Documents and Settings\Utente\Musica\Esempio.mp3
+ 
+#EXTINF:233,Traccia 1
+musica\artista\traccia01.ogg
+
+#EXTINF:250,Traccia 7
+music\playlist.m3u

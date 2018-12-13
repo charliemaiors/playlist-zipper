@@ -10,7 +10,7 @@ type zipArchiver struct{}
 
 func (archiver *zipArchiver) Archive(filename string, files []string) error {
 
-	newZipFile, err := os.Create(filename)
+	newZipFile, err := os.Create(filename + ".zip")
 	if err != nil {
 		return err
 	}

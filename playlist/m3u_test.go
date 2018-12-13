@@ -6,18 +6,17 @@ import (
 	"github.com/charliemaiors/playlist-zipper/playlist"
 )
 
-var zplReader playlist.Reader
-var err error
+var m3uReader playlist.Reader
 
 func init() {
-	zplReader, err = playlist.NewReader("zpl")
+	m3uReader, err = playlist.NewReader("m3u")
 	if err != nil {
 		panic(err)
 	}
 }
 
-func TestZplPlaylist(test *testing.T) {
-	sources, err := zplReader.ReadPlaylist("./test.zpl")
+func TestM3UPlaylist(test *testing.T) {
+	sources, err := m3uReader.ReadPlaylist("./test.m3u")
 	if err != nil {
 		test.Fatalf("Got error %v", err)
 	}

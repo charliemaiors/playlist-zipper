@@ -65,8 +65,8 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.PersistentFlags().StringVar(&playlistType, "playlist-ext", "zpl", "Set playlist Type")
-	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-types", "zip", "Set archive Type")
+	rootCmd.PersistentFlags().StringVar(&playlistType, "playlist-ext", "zpl", "Set playlist Type, available types: zpl, m3u")
+	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-types", "zip", "Set archive Type, available types: zip, tar")
 }
 
 func produceArchives(currentDir string) {

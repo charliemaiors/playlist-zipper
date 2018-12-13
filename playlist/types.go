@@ -11,6 +11,8 @@ func NewReader(playlistType string) (Reader, error) {
 	switch playlistType {
 	case "zpl":
 		return &zplReader{}, nil
+	case "m3u":
+		return &m3uReader{}, nil
 	default:
 		return nil, errors.New("Type not supported")
 	}

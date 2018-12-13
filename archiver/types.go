@@ -11,6 +11,8 @@ func NewArchiver(archiveType string) (Archiver, error) {
 	switch archiveType {
 	case "zip":
 		return &zipArchiver{}, nil
+	case "tar":
+		return &tarArchiver{}, nil
 	default:
 		return nil, errors.New("Archive format not yet supported")
 	}

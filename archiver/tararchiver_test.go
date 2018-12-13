@@ -6,19 +6,18 @@ import (
 	"github.com/charliemaiors/playlist-zipper/archiver"
 )
 
-var zipper archiver.Archiver
-var err error
+var tararchiver archiver.Archiver
 
 func init() {
-	zipper, err = archiver.NewArchiver("zip")
+	tararchiver, err = archiver.NewArchiver("tar")
 	if err != nil {
 		panic(err)
 	}
 }
 
-func TestArchive(t *testing.T) {
+func TestTarArchive(t *testing.T) {
 	files := []string{"test/ciao.txt", "test/lol.txt"}
-	err = zipper.Archive("test/archive", files)
+	err = tararchiver.Archive("test/archive", files)
 
 	if err != nil {
 		t.Fatalf("Error creating and defining the archive %v", err)
