@@ -20,11 +20,17 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/charliemaiors/playlist-zipper/archiver"
 	"github.com/charliemaiors/playlist-zipper/playlist"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+var extensionMap = map[string]string{
+	"zip": ".zip",
+	"tar": ".tar.gz",
+	"bz2": ".tar.bz2",
+	"xz":  ".tar.xz",
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -66,7 +72,7 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.PersistentFlags().StringVar(&playlistType, "playlist-ext", "zpl", "Set playlist Type, available types: zpl, m3u")
-	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-types", "zip", "Set archive Type, available types: zip, tar")
+	rootCmd.PersistentFlags().StringVar(&archiveType, "archive-types", "zip", "Set archive Type, available types: zip, tar, bz2, xz")
 }
 
 func produceArchives(currentDir string) {
@@ -76,7 +82,7 @@ func produceArchives(currentDir string) {
 		os.Exit(3)
 	}
 
-	archiveHandler, err := archiver.NewArchiver(archiveType)
+	archiveHandler, err := producer.NewArchiver(archiveType)
 	if err != nil {
 		fmt.Printf("Error defining archive handler %v\n", err)
 		os.Exit(4)
@@ -97,7 +103,7 @@ func produceArchives(currentDir string) {
 				fmt.Printf("Error reading playlist %s: %v", file.Name(), err)
 				return
 			}
-			if err = archiveHandler.Archive(filepath.Base(file.Name()+".zip"), playlistFiles); err != nil {
+			if err = archiveHandler.Archive(playlistFiles, filepath.Base(file.Name()+extensionMap[archiveType])); err != nil {
 				fmt.Printf("Error producing archive for playlist %s: %v", file.Name(), err)
 				return
 			}
