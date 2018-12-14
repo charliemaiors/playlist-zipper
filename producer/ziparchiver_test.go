@@ -3,7 +3,7 @@ package producer_test
 import (
 	"testing"
 
-	"github.com/charliemaiors/producer"
+	"github.com/charliemaiors/playlist-zipper/producer"
 )
 
 var zipper producer.ArchiveProducer
@@ -16,7 +16,7 @@ func init() {
 	}
 }
 
-func TestArchive(t *testing.T) {
+func TestZipArchive(t *testing.T) {
 	files := []string{"test/ciao.txt", "test/lol.txt"}
 	err = zipper.Archive(files, "test/archive.zip")
 

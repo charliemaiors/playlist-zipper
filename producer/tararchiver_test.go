@@ -3,7 +3,7 @@ package producer_test
 import (
 	"testing"
 
-	"github.com/charliemaiors/producer"
+	"github.com/charliemaiors/playlist-zipper/producer"
 )
 
 var tararchiver producer.ArchiveProducer

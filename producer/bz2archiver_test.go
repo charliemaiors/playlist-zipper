@@ -2,6 +2,8 @@ package producer_test
 
 import (
 	"testing"
+
+	"github.com/charliemaiors/playlist-zipper/producer"
 )
 
 var bz2archiver producer.ArchiveProducer
@@ -15,7 +17,7 @@ func init() {
 
 func TestArchive(t *testing.T) {
 	files := []string{"test/ciao.txt", "test/lol.txt"}
-	err = bz2archiver.Archive(files, "test/archive.bz2")
+	err = bz2archiver.Archive(files, "test/archive.tar.bz2")
 
 	if err != nil {
 		t.Fatalf("Error creating and defining the archive %v", err)

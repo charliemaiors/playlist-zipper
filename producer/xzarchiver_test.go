@@ -2,6 +2,8 @@ package producer_test
 
 import (
 	"testing"
+
+	"github.com/charliemaiors/playlist-zipper/producer"
 )
 
 var xzarchiver producer.ArchiveProducer
@@ -13,7 +15,7 @@ func init() {
 	}
 }
 
-func TestArchive(t *testing.T) {
+func TestXzArchive(t *testing.T) {
 	files := []string{"test/ciao.txt", "test/lol.txt"}
 	err = xzarchiver.Archive(files, "test/archive.tar.xz")
 
