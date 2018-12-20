@@ -2,7 +2,6 @@ package playlist
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/grafov/m3u8"
@@ -32,9 +31,7 @@ func (reader *m3uReader) ReadPlaylist(playlistLocation string) ([]string, error)
 
 	for _, segment := range mediapl.Segments {
 		if segment != nil {
-			fmt.Printf("Current segment is %+v\n", segment)
 			if !isValidURL(segment.URI) {
-				fmt.Printf("Adding %s\n", segment.URI)
 				res = append(res, segment.URI)
 			}
 		}

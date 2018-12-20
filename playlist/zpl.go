@@ -2,7 +2,6 @@ package playlist
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 )
 
@@ -35,7 +34,6 @@ func (seq zplBody) getAllSources() []string {
 	res := make([]string, 0)
 	for _, element := range seq.Sequence {
 		if !isValidURL(element.Src) {
-			fmt.Printf("Adding %s\n", element.Src)
 			res = append(res, element.Src)
 		}
 	}
@@ -44,7 +42,6 @@ func (seq zplBody) getAllSources() []string {
 
 func (reader *zplReader) ReadPlaylist(playlistLocation string) ([]string, error) {
 	zplList, err := ioutil.ReadFile(playlistLocation)
-	//fmt.Printf("PLAYLIST %s", string(zplList))
 	if err != nil {
 		return nil, err
 	}

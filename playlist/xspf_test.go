@@ -1,6 +1,7 @@
 package playlist_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,5 +23,6 @@ func TestXspfPlaylist(test *testing.T) {
 	if err != nil {
 		test.Fatalf("Got error %v", err)
 	}
+	fmt.Printf("Sources are %+v", sources)
 	assert.Equal(test, 1, len(sources), "Wrong number of sources read")
 }

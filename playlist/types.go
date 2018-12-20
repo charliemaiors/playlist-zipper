@@ -3,13 +3,17 @@ package playlist
 import (
 	"errors"
 	"net/url"
+	"strings"
 )
+
+var forbiddenProtocols = []string{"http", "https", "rtsp", "ftp"}
 
 //Reader is the interface defined for categorize a general reader for different playlist types
 type Reader interface {
 	ReadPlaylist(playlistLocation string) ([]string, error)
 }
 
+//NewReader returns an instance of playlist.Reader interface (THIS IS NOT AN IMPLEMENTATION OF golang Reader)
 func NewReader(playlistType string) (Reader, error) {
 	switch playlistType {
 	case "zpl":
@@ -28,5 +32,10 @@ func isValidURL(toTest string) bool {
 	if err != nil {
 		return false
 	}
-	return true
+	for _, frbd := range forbiddenProtocols {
+		if strings.HasPrefix(toTest, frbd) {
+			return true
+		}
+	}
+	return false
 }

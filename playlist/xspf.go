@@ -7,8 +7,6 @@ import (
 )
 
 type xspfReader struct{}
-
-//Playlist generated using xmltogo
 type Playlist struct {
 	XMLName xml.Name `xml:"playlist"`
 	Text    string   `xml:",chardata"`
@@ -129,12 +127,14 @@ func (reader *xspfReader) ReadPlaylist(playlistLocation string) ([]string, error
 		return nil, err
 	}
 
+	fmt.Printf("File content is %s\n", string(xspfPlaylist))
 	var playlist Playlist
 	err = xml.Unmarshal(xspfPlaylist, &playlist)
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Printf("Playlist %+v\n", &playlist)
 	res := make([]string, 0)
 	for _, track := range playlist.TrackList.Track {
 		fmt.Printf("Current is %s\n", track.Location.Text)
