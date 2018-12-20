@@ -68,10 +68,8 @@ type Playlist struct {
 	TrackList struct {
 		Text  string `xml:",chardata"`
 		Track []struct {
-			Text     string `xml:",chardata"`
-			Location struct {
-				Text string `xml:",chardata"`
-			} `xml:"location"`
+			Text       string `xml:",chardata"`
+			Location   string `xml:"location"`
 			Identifier struct {
 				Text string `xml:",chardata"`
 			} `xml:"identifier"`
@@ -137,10 +135,10 @@ func (reader *xspfReader) ReadPlaylist(playlistLocation string) ([]string, error
 	fmt.Printf("Playlist %+v\n", &playlist)
 	res := make([]string, 0)
 	for _, track := range playlist.TrackList.Track {
-		fmt.Printf("Current is %s\n", track.Location.Text)
-		if !isValidURL(track.Location.Text) {
-			fmt.Printf("Adding %s\n", track.Location.Text)
-			res = append(res, track.Location.Text)
+		fmt.Printf("Current is %s\n", track.Location)
+		if !isValidURL(track.Location) {
+			fmt.Printf("Adding %s\n", track.Location)
+			res = append(res, track.Location)
 		}
 	}
 	return res, nil
