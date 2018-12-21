@@ -7,7 +7,7 @@ import (
 )
 
 type xspfReader struct{}
-type Playlist struct {
+type playlist struct {
 	XMLName xml.Name `xml:"playlist"`
 	Text    string   `xml:",chardata"`
 	Version string   `xml:"version,attr"`
@@ -125,14 +125,14 @@ func (reader *xspfReader) ReadPlaylist(playlistLocation string) ([]string, error
 		return nil, err
 	}
 
-	var playlist Playlist
-	err = xml.Unmarshal(xspfPlaylist, &playlist)
+	var plst playlist
+	err = xml.Unmarshal(xspfPlaylist, &plst)
 	if err != nil {
 		return nil, err
 	}
 
 	res := make([]string, 0)
-	for _, track := range playlist.TrackList.Track {
+	for _, track := range plst.TrackList.Track {
 		if !isValidURL(track.Location) {
 			fmt.Printf("Adding %s\n", track.Location)
 			res = append(res, track.Location)

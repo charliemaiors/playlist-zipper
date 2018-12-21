@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 )
 
-type Smil struct {
+type smil struct {
 	Head zplHead `xml:"head"`
 	Body zplBody `xml:"body"`
 }
@@ -48,7 +48,7 @@ func (reader *zplReader) ReadPlaylist(playlistLocation string) ([]string, error)
 		return nil, err
 	}
 
-	var playlist Smil
+	var playlist smil
 	err = xml.Unmarshal(zplList, &playlist)
 	if err != nil {
 		return nil, err
