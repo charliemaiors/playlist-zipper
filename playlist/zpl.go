@@ -34,14 +34,16 @@ type zplReader struct {
 func (seq zplBody) getAllSources() []string {
 	res := make([]string, 0)
 	for _, element := range seq.Sequence {
-		res = append(res, element.Src)
+		if !isValidURL(element.Src) {
+			fmt.Printf("Adding %s\n", element.Src)
+			res = append(res, element.Src)
+		}
 	}
 	return res
 }
 
 func (reader *zplReader) ReadPlaylist(playlistLocation string) ([]string, error) {
 	zplList, err := ioutil.ReadFile(playlistLocation)
-	//fmt.Printf("PLAYLIST %s", string(zplList))
 	if err != nil {
 		return nil, err
 	}
@@ -51,6 +53,6 @@ func (reader *zplReader) ReadPlaylist(playlistLocation string) ([]string, error)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Print(playlist)
+
 	return playlist.Body.getAllSources(), nil
 }
