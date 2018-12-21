@@ -125,17 +125,14 @@ func (reader *xspfReader) ReadPlaylist(playlistLocation string) ([]string, error
 		return nil, err
 	}
 
-	fmt.Printf("File content is %s\n", string(xspfPlaylist))
 	var playlist Playlist
 	err = xml.Unmarshal(xspfPlaylist, &playlist)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Printf("Playlist %+v\n", &playlist)
 	res := make([]string, 0)
 	for _, track := range playlist.TrackList.Track {
-		fmt.Printf("Current is %s\n", track.Location)
 		if !isValidURL(track.Location) {
 			fmt.Printf("Adding %s\n", track.Location)
 			res = append(res, track.Location)

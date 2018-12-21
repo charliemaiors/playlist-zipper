@@ -2,6 +2,7 @@ package playlist
 
 import (
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 )
 
@@ -34,6 +35,7 @@ func (seq zplBody) getAllSources() []string {
 	res := make([]string, 0)
 	for _, element := range seq.Sequence {
 		if !isValidURL(element.Src) {
+			fmt.Printf("Adding %s\n", element.Src)
 			res = append(res, element.Src)
 		}
 	}
