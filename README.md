@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/charliemaiors/playlist-zipper.svg?branch=master)](https://travis-ci.org/charliemaiors/playlist-zipper)
 [![Maintainability](https://api.codeclimate.com/v1/badges/27b04bc52c80354a96f3/maintainability)](https://codeclimate.com/github/charliemaiors/playlist-zipper/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/27b04bc52c80354a96f3/test_coverage)](https://codeclimate.com/github/charliemaiors/playlist-zipper/test_coverage)
+[![codecov](https://codecov.io/gh/charliemaiors/playlist-zipper/branch/master/graph/badge.svg)](https://codecov.io/gh/charliemaiors/playlist-zipper)
+
 
 Playlist zipper will parse a playlist definition file, and add each file to a zip archive.
 
