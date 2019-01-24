@@ -17,7 +17,7 @@ branches:
 
 script:
   - golangci-lint run       # run a bunch of code checkers/linters in parallel
-  - go test -v -race ./... -coverprofile c.out # Run all the tests with the race detector enabled
+  - go test -v -race ./... -coverprofile c.out  # Run all the tests with the race detector enabled
   - GOOS="linux" go build -v -o bin/x86/zipper main.go
   - GOOS="darwin" go build -v -o bin/osx/zipper main.go
   - GOOS="windows" go build -v -o bin/win/zipper.exe main.go
@@ -25,6 +25,9 @@ script:
 
 after_script:
   - ./cc-test-reporter after-build -t gocov --exit-code $TRAVIS_TEST_RESULT
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 before_deploy:
   - zip -r bin/zipper-linux-x86.zip bin/x86/

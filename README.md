@@ -1,5 +1,6 @@
 # Playlist Zipper
-[![Build Status](https://travis-ci.com/charliemaiors/playlist-zipper.svg?branch=master)](https://travis-ci.com/charliemaiors/playlist-zipper)
+
+[![Build Status](https://travis-ci.org/charliemaiors/playlist-zipper.svg?branch=master)](https://travis-ci.org/charliemaiors/playlist-zipper)
 [![Maintainability](https://api.codeclimate.com/v1/badges/27b04bc52c80354a96f3/maintainability)](https://codeclimate.com/github/charliemaiors/playlist-zipper/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/27b04bc52c80354a96f3/test_coverage)](https://codeclimate.com/github/charliemaiors/playlist-zipper/test_coverage)
 
